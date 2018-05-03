@@ -19,6 +19,10 @@
         .vertical-section-container {
           max-width: 500px;
         }
+
+        p {
+          margin: 0;
+        }
       </style>
     </custom-style>
 
@@ -33,7 +37,11 @@
       <demo-snippet class="centered-demo">
         <template>
 
-          <valle-modal></valle-modal>
+          <valle-modal title="Teste modal aberto" open>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum egestas elementum risus sit amet imperdiet. Integer tincidunt eget orci sed hendrerit.</p>
+            <a href="#" slot="button">hv</a>
+            <a href="#" slot="button">sdsgadfgfdafg</a>
+          </valle-modal>
 
         </template>
       </demo-snippet>
@@ -41,20 +49,22 @@
       <!-- With Prop - demo
       ========================= -->
 
-      <h2>With Prop</h2>
+      <!-- <h2>With Prop</h2>
 
       <demo-snippet class="centered-demo">
         <template>
 
-          <valle-modal prop1="Human"></valle-modal>
+          <valle-modal>
+            <h1>Teste modal fechado</h1>
+          </valle-modal>
 
         </template>
-      </demo-snippet>
+      </demo-snippet> -->
 
       <!-- Custom style - demo
       ========================= -->
 
-      <h2>Custom style</h2>
+      <!-- <h2>Custom style</h2>
 
       <demo-snippet class="centered-demo">
         <template>
@@ -68,7 +78,7 @@
           <valle-modal class="shiny"></valle-modal>
 
         </template>
-      </demo-snippet>
+      </demo-snippet> -->
 
     </main>
 
