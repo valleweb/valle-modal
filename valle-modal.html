@@ -7,7 +7,7 @@
 
       :host {
         display: flex;
-        position: absolute;
+        position: fixed;
         width: 100vw;
         height: 100vh;
         justify-content: center;
@@ -60,6 +60,9 @@
       .title {
         margin: 0;
         margin-bottom: 20px;
+        font-size: 20px;
+        line-height: 28px;
+        color: var(--valle-modal-title-color, #212121);
       }
 
       #buttonModal {
@@ -86,7 +89,6 @@
         text-align: center;
         box-sizing: border-box;
         height: 36px;
-        border: 1px dashed black;
       }
 
       @media screen and (max-width: 400px) {
@@ -106,7 +108,7 @@
 
     <div id="backdrop"></div>
 
-    <section id="modal" role="dialog">
+    <section id="modal" role="dialog" aria-labelledby="titleModal">
 
       <div id="contentModal">
 
@@ -135,10 +137,25 @@
         super.ready();
         this.$.backdrop.addEventListener('click', () => {     this.open = false;
         });
+        this.$.modal.tabIndex = 1;
+        this.$.modal.addEventListener('keydown', () => {
+          this._keydownControl.bind(this);
+          this.open = false;
+        });
+      }
+
+      _keydownControl(event, index) {
+        const pressEsc = event.which === 27 || event.keyCode === 27;
+
+        if (pressEsc) {
+          event.preventDefault();
+          this._close();
+        }
       }
 
       _open() {
         this.style.display = 'flex';
+        this.$.modal.focus();
       }
 
       _close() {
