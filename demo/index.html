@@ -19,6 +19,10 @@
         .vertical-section-container {
           max-width: 500px;
         }
+
+        p {
+          margin: 0;
+        }
       </style>
     </custom-style>
 
@@ -33,20 +37,22 @@
       <demo-snippet class="centered-demo">
         <template>
 
-          <valle-modal></valle-modal>
+          <button id="abrirModal">Abrir</button>
 
-        </template>
-      </demo-snippet>
+          <valle-modal id="modalDefault" title="Teste modal">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum egestas elementum risus sit amet imperdiet. Integer tincidunt eget orci sed hendrerit.</p>
+            <a href="#" slot="button">hv</a>
+            <a href="#" slot="button">sdsgadfgfdafg</a>
+          </valle-modal>
 
-      <!-- With Prop - demo
-      ========================= -->
+          <script>
+            const botaoDefault = document.querySelector('#abrirModal');
+            const modalDefault = document.querySelector('#modalDefault');
 
-      <h2>With Prop</h2>
-
-      <demo-snippet class="centered-demo">
-        <template>
-
-          <valle-modal prop1="Human"></valle-modal>
+            botaoDefault.addEventListener('click', () => {
+              modalDefault.open = true;
+            });
+          </script>
 
         </template>
       </demo-snippet>
@@ -61,11 +67,26 @@
 
         <style is="custom-style">
           .shiny {
-            --vsc-element-text-color: #a1f442;
+            --valle-modal-title-color: #BA68C8;
           }
         </style>
 
-          <valle-modal class="shiny"></valle-modal>
+        <button id="abrirModalCustomizado">Abrir</button>
+
+        <valle-modal id="modalCustomizado" title="Teste modal customizado" class="shiny">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum egestas elementum risus sit amet imperdiet. Integer tincidunt eget orci sed hendrerit.</p>
+          <a href="#" slot="button">Cancel</a>
+          <a href="#" slot="button">Ok</a>
+        </valle-modal>
+
+        <script>
+          const botaoCustomizado = document.querySelector('#abrirModalCustomizado');
+          const modalCustomizado = document.querySelector('#modalCustomizado');
+
+          botaoCustomizado.addEventListener('click', () => {
+            modalCustomizado.open = true;
+          });
+        </script>
 
         </template>
       </demo-snippet>

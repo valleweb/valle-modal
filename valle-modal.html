@@ -6,36 +6,182 @@
     <style>
 
       :host {
-        display: block;
+        display: flex;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        left: 0;
       }
 
-      h1 {
-        @apply (--valle-element-text);
-        color: var(--valle-element-text-color, #f44277);
+      #backdrop {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, .5);
+        z-index: 9998;
+        top: 0;
+        left: 0;
+      }
+
+      #modal {
+        width: 100%;
+        margin: 10px;
+        max-width: 600px;
+        background-color: #fff;
+        box-sizing: border-box;
+        padding: 0 8px 0 24px;
+        z-index: 9999;
+        border-radius: 2px;
+        box-shadow: 0 12px 16px 1px rgba(0, 0, 0, 0.14),
+                    0 4px 22px 3px rgba(0, 0, 0, 0.12),
+                    0 6px 7px -4px rgba(0, 0, 0, 0.4);
+      }
+
+      @media screen and (max-width: 400px) {
+        #modal {
+          padding: 0;
+        }
+      }
+
+      #contentModal {
+        padding: 24px 16px 24px 0;
+        box-sizing: border-box;
+      }
+
+      @media screen and (max-width: 400px) {
+        #contentModal {
+          padding: 24px 16px;
+        }
+      }
+
+      .title {
+        margin: 0;
+        margin-bottom: 20px;
+        font-size: 20px;
+        line-height: 28px;
+        color: var(--valle-modal-title-color, #212121);
+      }
+
+      #buttonModal {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        text-transform: uppercase;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+
+      @media screen and (max-width: 400px) {
+        #buttonModal {
+          display: block;
+          margin-bottom: 8px;
+          padding: 0;
+        }
+      }
+
+      #buttonModal ::slotted(*) {
+        margin-left: 8px;
+        padding: 8px;
+        min-width: 64px;
+        text-align: center;
+        box-sizing: border-box;
+        height: 36px;
+      }
+
+      @media screen and (max-width: 400px) {
+        #buttonModal ::slotted(*) {
+          margin: 0;
+          height: 48px;
+          display: block;
+          padding-right: 16px;
+          min-width: 64px;
+          width: 100%;
+          text-align: right;
+          box-sizing: border-box;
+        }
       }
 
     </style>
 
-    <h1>Hello [[prop1]]!</h1>
+    <div id="backdrop"></div>
+
+    <section id="modal" role="dialog" aria-labelledby="titleModal">
+
+      <div id="contentModal">
+
+        <h1 id="titleModal" class="title">[[title]]</h1>
+
+        <slot></slot>
+
+      </div>
+
+      <div id="buttonModal">
+        
+        <slot name="button"></slot>
+
+      </div>
+
+    </section>
 
   </template>
 
   <script>
-    class valleElement extends Polymer.Element {
+    class valleModal extends Polymer.Element {
 
       static get is() { return 'valle-modal'; }
 
+      ready() {
+        super.ready();
+        this.$.backdrop.addEventListener('click', () => {     this.open = false;
+        });
+        this.$.modal.tabIndex = 1;
+        this.$.modal.addEventListener('keydown', () => {
+          this._keydownControl.bind(this);
+          this.open = false;
+        });
+      }
+
+      _keydownControl(event, index) {
+        const pressEsc = event.which === 27 || event.keyCode === 27;
+
+        if (pressEsc) {
+          event.preventDefault();
+          this._close();
+        }
+      }
+
+      _open() {
+        this.style.display = 'flex';
+        this.$.modal.focus();
+      }
+
+      _close() {
+        this.style.display = 'none';
+      }
+
+      _toogleOpen(open) {
+        open
+          ? this._open()
+          : this._close();
+      }
+
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'World'
-          }
+          open: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+            observer: '_toogleOpen'
+          },
+          title: String
         };
       }
 
     }
 
-    window.customElements.define(valleElement.is, valleElement);
+    window.customElements.define(valleModal.is, valleModal);
   </script>
 </dom-module>
