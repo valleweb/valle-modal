@@ -40,7 +40,8 @@ $ bower install valle-modal --save
 
 Property  | Type        | Default   | Description
 :---      |:---         |:---       |:---
-`prop1`   | *String*    | `World`   | Prop description
+`title`   | *String*    | ``        | Modal heading
+`open`    | *Boolean*   | `false`   | The open modal state
 
 ## Styling
 
@@ -48,8 +49,7 @@ The following custom properties and mixins are available for styling:
 
 Custom property                | Default  | Description
 :---                           |:---      |:---
---valle-element-text-color       | #f44277  | Text color
---valle-element-text             | {}       | Text styles
+--valle-modal-title-color      | #212121  | Text heading color
 
 
 ## Browser Support
