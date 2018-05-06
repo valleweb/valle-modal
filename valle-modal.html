@@ -139,18 +139,16 @@
         this.$.backdrop.addEventListener('click', () => {     this.open = false;
         });
         this.$.modal.tabIndex = 1;
-        this.$.modal.addEventListener('keydown', () => {
-          this._keydownControl.bind(this);
-          this.open = false;
-        });
+        this.$.modal.addEventListener('keydown', this._keydownControl.bind(this));
       }
 
-      _keydownControl(event, index) {
-        const pressEsc = event.which === 27 || event.keyCode === 27;
+      _keydownControl(e) {
+        const pressEsc = e.which === 27 || e.keyCode === 27;
 
         if (pressEsc) {
-          event.preventDefault();
+          e.preventDefault();
           this._close();
+          this.open = false;
         }
       }
 
